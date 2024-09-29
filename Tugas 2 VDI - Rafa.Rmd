@@ -1,0 +1,96 @@
+---
+title: "Tugas 2 VDI"
+author: "Rafa Aqilla Jungjunan"
+date: "2024-09-29"
+output: html_document
+---
+### 4 prinsip dalam pengembangan visualisasi data:
+1. The Design Study Methodology
+2. Visual Encoding Techniques 
+3. Cognition and Perception 
+4. Interaction
+
+### 2 contoh visualisasi yang termasuk dalam Bad category visualisasi serta alasan berdasarkan 4 prinsip
+```{r}
+# 1. Diagram Lingkaran 3D (Bad Visualization)
+pie_data <- data.frame(
+  category = c("A", "B", "C", "D", "E"),
+  value = c(20, 25, 15, 30, 10)
+)
+
+ggplot(pie_data, aes(x = "", y = value, fill = category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  ggtitle("Diagram Lingkaran 3D (Contoh Visualisasi Buruk)") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+Alasan mengapa Diagram Lingkaran 3D termasuk visualisasi yang buruk:
+a) The Design Study Methodology     : Tidak mempertimbangkan kebutuhan pengguna untuk membandingkan nilai dengan akurat.
+b) Visual Encoding Techniques       : Menggunakan efek 3D yang tidak perlu, yang mendistorsi proporsi sebenarnya dari data.
+c) Cognition and Perception         : Sulit bagi otak manusia untuk memperkirakan dan membandingkan sudut atau area, terutama dalam perspektif 3D.
+d) Interaction                      : Tidak memungkinkan interaksi yang bermakna atau eksplorasi data lebih lanjut.
+
+```{r}
+# 2. Grafik Batang dengan Skala Y yang Tidak Dimulai dari Nol (Bad Visualization)
+data <- data.frame(
+  kategori = c("A", "B", "C", "D"),
+  nilai = c(10, 25, 15, 30)
+)
+
+ggplot(data, aes(x = kategori, y = nilai)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_cartesian(ylim = c(10, 35)) + # Atur tampilan sumbu Y tanpa menghapus data
+  labs(title = "Grafik Batang dengan Skala Y Tidak Dimulai dari Nol",
+       x = "Kategori",
+       y = "Nilai") +
+  theme_minimal()
+```
+Alasan mengapa Grafik Batang dengan Skala Y yang Tidak Dimulai dari Nol termasuk visualisasi yang buruk:
+a) The Design Study Methodology: Tidak mempertimbangkan konteks dan tujuan visualisasi untuk memberikan perbandingan yang akurat.
+b) Visual Encoding Techniques: Menggunakan skala yang menyesatkan, melebih-lebihkan perbedaan antara nilai-nilai.
+c) Cognition and Perception: Menyebabkan persepsi yang salah tentang besarnya perbedaan antara nilai-nilai.
+d) Interaction: Tidak menyediakan konteks atau cara untuk melihat data dalam perspektif yang lebih luas.
+
+### 2 contoh visualisasi yang termasuk dalam Good category visualisasi serta alasan berdasarkan 4 prinsip
+```{r}
+# 1. Grafik Garis untuk Data Time Series (Good Visualization)
+time_series_data <- data.frame(
+  year = 2019:2023,
+  value = c(50, 70, 60, 100, 150)
+)
+
+ggplot(time_series_data, aes(x = year, y = value)) +
+  geom_line(color = "#3366cc", linewidth = 1) +  # Menggunakan linewidth alih-alih size
+  geom_point(color = "#3366cc", size = 3) +
+  scale_x_continuous(breaks = 2019:2023) +
+  ggtitle("Grafik Garis untuk Data Time Series (Contoh Visualisasi Baik)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+Alasan mengapa Grafik Garis untuk Data Time Series termasuk visualisasi yang baik:
+a) The Design Study Methodology   : Sesuai untuk menampilkan tren dan perubahan data sepanjang waktu.
+b) Visual Encoding Techniques     : Menggunakan posisi pada sumbu y untuk menunjukkan nilai dan garis untuk menghubungkan titik-titik data, memudahkan identifikasi tren.
+c) Cognition and Perception       : Mudah bagi otak manusia untuk memahami tren dan pola dalam data time series.
+d) Interaction                    : Dapat dengan mudah ditambahkan interaksi seperti hover untuk menampilkan nilai spesifik atau zoom untuk melihat periode waktu tertentu.
+```{r}
+# 2. Heatmap untuk Menampilkan Data Multidimensi (Good Visualization)
+heatmap_data <- data.frame(
+  X = rep(c("A", "B", "C", "D", "E"), each = 3),
+  Y = rep(c("X", "Y", "Z"), times = 5),
+  value = c(1, 2, 3, 2, 3, 4, 3, 4, 5, 4, 5, 6, 5, 6, 7)
+)
+
+ggplot(heatmap_data, aes(x = X, y = Y, fill = value)) +
+  geom_tile() +
+  geom_text(aes(label = value), color = "black", size = 5) +  
+  scale_fill_gradient(low = "#ffffcc", high = "#e31a1c") +
+  ggtitle("Heatmap untuk Data Multidimensi (Contoh Visualisasi Baik)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+Alasan mengapa Heatmap untuk Menampilkan Data Multidimensi termasuk visualisasi yang baik:
+a) The Design Study Methodology   : Efektif untuk menampilkan data multidimensi dalam format yang padat dan informatif.
+b) Visual Encoding Techniques     : Menggunakan warna untuk menunjukkan intensitas atau nilai, memungkinkan perbandingan cepat antar sel.
+c) Cognition and Perception       : Memanfaatkan kemampuan manusia untuk dengan cepat mengenali perbedaan warna dan pola.
+d) Interaction                    : Dapat ditambahkan interaksi seperti hover untuk menampilkan nilai spesifik atau filtering untuk fokus pada subset data tertentu.
